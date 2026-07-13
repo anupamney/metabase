@@ -47,17 +47,19 @@
                               :type/Time           "TIME(3)"}]
   (defmethod sql.tx/field-base-type->sql-type [:snowflake base-type] [_ _] sql-type))
 
+;; spread out the load across a randomly-selected spread of databases
+(defonce dataset-spread (rand-int 4))
+
 (defn qualified-db-name
   "Prepend `database-name` with the hash of the db-def so we don't stomp on any other jobs running at the same
   time."
   [{:keys [database-name] :as db-def}]
-  (cond (str/starts-with? database-name "sha_")
-        database-name
-        ;; releases get their own isolated datasets
-        (tx/on-master-or-release-branch?)
-        (str "sha_rel_" (tx/hash-dataset db-def) "_" database-name)
-        :else
-        (str "sha__" (tx/hash-dataset db-def) "_" database-name)))
+  (if (str/starts-with? database-name "sha_")
+    database-name
+    (str/join "_" (if (tx/on-master-or-release-branch?)
+                    ;; releases get their own isolated datasets
+                    ["sha" "rel" dataset-spread (tx/hash-dataset db-def) database-name]
+                    ["sha" dataset-spread (tx/hash-dataset db-def) database-name]))))
 
 (defmethod tx/dbdef->connection-details :snowflake
   [_driver context dbdef]
@@ -518,6 +520,12 @@
     (jdbc/execute! spec (format "GRANT ROLE %s TO USER %s" "ACCOUNTADMIN" db-user))))
 
 (comment
+  (let [test-data (tx/get-dataset-definition (data.impl/resolve-dataset-definition
+                                              *ns* 'test-data))]
+    (tx/dataset-already-loaded? :snowflake test-data))
+  (jdbc/query (no-db-connection-spec) ["SELECT query_text, end_time
+                                        FROM \"sha_rel_c1baee7db240aa419104c2d925a07a4d4faeeb24_test-data.ACCOUNT_USAGE.QUERY_HISTORY\"
+                                        ORDER BY end_time DESC limit 64"])
   (old-dataset-names)
   (drop-old-datasets!)
   (into [] (jdbc/reducible-query (no-db-connection-spec) ["select * from metabase_test_tracking.PUBLIC.datasets"]))
