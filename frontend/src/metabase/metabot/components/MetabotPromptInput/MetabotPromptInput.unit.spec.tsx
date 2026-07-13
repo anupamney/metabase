@@ -32,6 +32,7 @@ const defaultProps = {
   onChange: jest.fn(),
   onStop: jest.fn(),
   suggestionConfig: {
+    // Unjustified type cast. FIXME
     suggestionModels: ["table", "database"] as SuggestionModel[],
   },
 };
@@ -93,6 +94,7 @@ describe("MetabotPromptInput", () => {
 
     await userEvent.type(getEditor(), "@");
 
+    // Unjustified type cast. FIXME
     const editor = ref.current as { view: { state: EditorState } } | null;
     expect(editor).toBeTruthy();
     const mentionState = MetabotMentionPluginKey.getState(editor!.view.state);
