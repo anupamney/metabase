@@ -12,11 +12,11 @@ const CLJS_SRC_PATH = __dirname + "/target/cljs_release";
 const CLJS_SRC_PATH_DEV = __dirname + "/target/cljs_dev";
 const LIB_SRC_PATH = __dirname + "/frontend/src/metabase-lib";
 const TYPES_SRC_PATH = __dirname + "/frontend/src/metabase-types";
-const EMBEDDING_SRC_PATH = __dirname + "/enterprise/frontend/src/embedding";
+// enterprise/ is removed from this fork; enterprise aliases resolve to OSS stubs
+const EMBEDDING_SRC_PATH =
+  __dirname + "/frontend/src/metabase/embedding-stubs";
 const SDK_SHARED_SRC_PATH = __dirname + "/frontend/src/embedding-sdk-shared";
 const SDK_BUNDLE_SRC_PATH = __dirname + "/frontend/src/embedding-sdk-bundle";
-const ENTERPRISE_SRC_PATH =
-  __dirname + "/enterprise/frontend/src/metabase-enterprise";
 
 const devMode = WEBPACK_BUNDLE !== "production";
 
@@ -121,7 +121,7 @@ module.exports = (env) => {
       alias: {
         assets: ASSETS_PATH,
         metabase: SRC_PATH,
-        "metabase-enterprise": ENTERPRISE_SRC_PATH,
+        "metabase-enterprise": SRC_PATH + "/plugins/noop",
         cljs: devMode ? CLJS_SRC_PATH_DEV : CLJS_SRC_PATH,
         "metabase-lib": LIB_SRC_PATH,
         "metabase-types": TYPES_SRC_PATH,
@@ -129,10 +129,7 @@ module.exports = (env) => {
         "embedding-sdk-bundle": SDK_BUNDLE_SRC_PATH,
         "embedding-sdk-shared": SDK_SHARED_SRC_PATH,
         "process/browser": require.resolve("process/browser"),
-        "ee-overrides":
-          process.env.MB_EDITION === "ee"
-            ? ENTERPRISE_SRC_PATH + "/static-viz-overrides"
-            : SRC_PATH + "/utils/noop",
+        "ee-overrides": SRC_PATH + "/utils/noop",
       },
       fallback: {
         crypto: require.resolve("crypto-browserify"),

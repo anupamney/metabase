@@ -17,7 +17,6 @@
 
 (def ^:private roots (into [] (map (partial str u/project-root-directory))
                            ["/src"
-                            "/enterprise/backend/src"
                             "/modules/drivers/bigquery-cloud-sdk/src"
                             "/modules/drivers/druid-jdbc/src"
                             "/modules/drivers/mongo/src"

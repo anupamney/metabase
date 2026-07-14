@@ -1,36 +1,24 @@
-import * as EnterpriseContentTranslationUtilsModule from "metabase-enterprise/content_translation/utils";
-
 /**
- * One of the utility functions that makes the content translation feature tick
- * is translateContentString. It takes a msgid and returns a msgstr.
- * setupTranslateContentStringSpy spies on this utility function but allows
- * it to execute its normal implementation (which hits the mocked endpoint).
- * This enables both spy assertion and integration testing of the async translation flow.
- *
- * To check that no content translation was performed, use this spy to assert
- * that the translateContentString utility function was not invoked.
- *
- * To provide a custom implementation, pass mockImplementation parameter.
- * */
+ * No-op stub. The enterprise content-translation feature was removed with the
+ * commercially-licensed enterprise/ directory, so there is no
+ * translateContentString implementation to spy on. Kept so existing specs
+ * that call it still load; the returned spy is inert.
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TranslateContentStringFunction = (...args: any[]) => any;
+
 export const setupTranslateContentStringSpy = (
-  mockImplementation?: EnterpriseContentTranslationUtilsModule.TranslateContentStringFunction,
+  _mockImplementation?: TranslateContentStringFunction,
 ) => {
-  let translateContentStringSpy: jest.SpyInstance;
+  let translateContentStringSpy: jest.Mock;
 
   beforeEach(() => {
-    translateContentStringSpy = jest.spyOn(
-      EnterpriseContentTranslationUtilsModule,
-      "translateContentString",
-    );
-
-    if (mockImplementation) {
-      translateContentStringSpy.mockImplementation(mockImplementation);
-    }
+    translateContentStringSpy = jest.fn();
   });
 
   afterEach(() => {
     translateContentStringSpy?.mockClear();
-    translateContentStringSpy?.mockRestore();
   });
 
   return () => translateContentStringSpy;

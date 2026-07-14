@@ -1,12 +1,12 @@
 module.exports = {
-  "+(frontend|enterprise)/**/*.styled.tsx": [
+  "frontend/**/*.styled.tsx": [
     "stylelint --customSyntax postcss-styled-syntax --fix",
   ],
-  "+(frontend|enterprise/frontend|e2e)/**/*.css": [
+  "+(frontend|e2e)/**/*.css": [
     "stylelint --fix",
     "oxfmt --write",
   ],
-  "+(frontend|enterprise/frontend)/**/*.{js,jsx,ts,tsx}": [
+  "frontend/**/*.{js,jsx,ts,tsx}": [
     "cross-env LINT_CSS_MODULES=true eslint --no-warn-ignored --max-warnings 0 --fix",
     "oxfmt --write",
     "node ./bin/verify-doc-links",
@@ -22,10 +22,7 @@ module.exports = {
   "e2e/test/scenarios/*/{*.(js|ts),!(helpers|shared)/*.(js|ts)}": [
     "node e2e/validate-e2e-test-files.js",
   ],
-  "enterprise/frontend/src/embedding-sdk-package/README.md": [
-    "oxfmt --write",
-  ],
-  "+(.storybook|enterprise/frontend/src/embedding-sdk-shared/.storybook)/**/*.{js,jsx,ts,tsx,css}":
+  "+(.storybook|frontend/src/embedding-sdk-shared/.storybook)/**/*.{js,jsx,ts,tsx,css}":
     ["oxfmt --write"],
   "**/*": [
     /**

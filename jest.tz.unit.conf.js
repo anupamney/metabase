@@ -22,7 +22,6 @@ module.exports = {
   modulePaths: [
     "<rootDir>/frontend/test",
     "<rootDir>/frontend/src",
-    "<rootDir>/enterprise/frontend/src",
   ],
   setupFiles: [
     "<rootDir>/frontend/test/jest-setup.js",

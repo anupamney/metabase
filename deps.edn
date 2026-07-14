@@ -421,19 +421,16 @@
               ;; print the progress bar in output when this is set. Progress bars aren't very CI friendly
               "-Dci=TRUE"]}
 
-  ;; include EE source code.
+  ;; The commercially-licensed enterprise/ directory is removed from this fork.
+  ;; These aliases are kept (empty) so existing command lines still work.
   :ee
-  {:extra-paths ["enterprise/backend/src"]
-   ;; make sure these stay in lockstep with their respective modules
+  {;; make sure these stay in lockstep with their respective modules
    :extra-deps {com.oracle.database.jdbc/ojdbc17 {:mvn/version "23.9.0.25.07"}
                 com.vertica.jdbc/vertica-jdbc
                 ^:antq/exclude  {:mvn/version "23.4.0-0"}}}
 
-  ;; Include EE tests.
-  ;; for EE dev:   `clojure -X:dev:ee:ee-dev`
-  ;; for EE tests: `clojure -X:dev:ee:ee-dev:test`
   :ee-dev
-  {:extra-paths ["enterprise/backend/test"]}
+  {}
 
   ;; these aliases exist for symmetry with the ee aliases. Empty for now.
   :oss
@@ -449,7 +446,7 @@
    {marginalia/marginalia {:mvn/version "0.9.2"}}
    :main-opts ["-m" "marginalia.main" "-n" "Metabase" "-d" "backend-docs" "-D"
                "The simplest, fastest way to get business intelligence and analytics to everyone in your company 😋"
-               "dev" "src" "enterprise/backend/src"]}
+               "dev" "src"]}
 
   ;; Generate a single file's docs with
   ;;   clojure -M:marginalia/one src/metabase/some/namespace.clj
@@ -543,8 +540,6 @@
     "--lint"
     "src"
     "test"
-    "enterprise/backend/src"
-    "enterprise/backend/test"
     "bin/build/src"
     "bin/build/test"
     "bin/lint-migrations-file/src"
@@ -591,7 +586,6 @@
                                  :sha     "d997df866b2a04b7ce7b17533093ee0a2e2cb729"}}
    :main-opts  ["-m" "clj-check.check"
                 "src"
-                "enterprise/backend/src"
                 "modules/drivers/athena/src"
                 "modules/drivers/bigquery-cloud-sdk/src"
                 "modules/drivers/clickhouse/src"
@@ -615,7 +609,6 @@
    :exec-args {;; manually specify the source paths for the time being (exclude test paths) until we fix Eastwood
                ;; errors in the test paths (once PR #17193 is merged)
                :source-paths    ["src"
-                                 "enterprise/backend/src"
                                  "modules/drivers/athena/src"
                                  "modules/drivers/bigquery-cloud-sdk/src"
                                  "modules/drivers/clickhouse/src"
@@ -694,7 +687,6 @@
                                    ".clj-kondo"
                                    ".github"
                                    "bin"
-                                   "enterprise"
                                    "frontend"
                                    "resources"
                                    "src"
@@ -738,13 +730,13 @@
                 metabase.util.log/logp]
 
                :src-ns-path
-               ["src" "enterprise/backend/src"]
+               ["src"]
 
                :test-ns-path
-               ["test" "enterprise/backend/test"]
+               ["test"]
 
                :ns-regex
-               ["^metabase\\..*" "^metabase-enterprise\\..*"]
+               ["^metabase\\..*"]
 
                ;; don't instrument Postgres/MySQL driver namespaces, because we don't currently run tests for them
                ;; as part of recording test coverage, which means they can give us false positives.
@@ -929,22 +921,13 @@
   ;;    clj -X:dev:ee:ee-dev:test:test/qp
   :test/qp
   {:exec-args {:only ["test/metabase/query_processor"
-                      metabase.driver.sql.query-processor-test
-                      metabase-enterprise.advanced-permissions.models.permissions.block-permissions-test
-                      metabase-enterprise.advanced-permissions.query-processor.middleware.permissions-test
-                      metabase-enterprise.sandbox.query-processor.middleware.sandboxing-test]}}
+                      metabase.driver.sql.query-processor-test]}}
 
   ;; test the notification system
   ;;    clj -X:dev:ee:ee-dev:test:test/notification
   :test/notification
   {:exec-args {:only ["test/metabase/notification"
                       "test/metabase/channel"]}}
-
-  ;; test the transforms feature
-  ;;    clj -X:dev:ee:ee-dev:test:test/transforms
-  :test/transforms
-  {:exec-args {:only ["enterprise/backend/test/metabase_enterprise/transforms"
-                      "enterprise/backend/test/metabase_enterprise/transforms_python"]}}
 
   ;; test all MBQL related stuff: Lib, the legacy shared `metabase.legacy-mbql` code, and the QP
   ;;
@@ -954,10 +937,7 @@
                       "test/metabase/lib_be"
                       "test/metabase/legacy_mbql"
                       "test/metabase/query_processor"
-                      metabase.driver.sql.query-processor-test
-                      metabase-enterprise.advanced-permissions.models.permissions.block-permissions-test
-                      metabase-enterprise.advanced-permissions.query-processor.middleware.permissions-test
-                      metabase-enterprise.sandbox.query-processor.middleware.sandboxing-test]}}
+                      metabase.driver.sql.query-processor-test]}}
 
   ;; test search-related stuff.
   ;;

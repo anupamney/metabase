@@ -13,11 +13,9 @@ const DOCS_PATH = ROOT_PATH + "/docs";
 const FRONTEND_BUILD_CONFIGS_PATH = ROOT_PATH + "/frontend/build";
 const SRC_PATH = ROOT_PATH + "/frontend/src/metabase";
 const LIB_SRC_PATH = ROOT_PATH + "/frontend/src/metabase-lib";
-const ENTERPRISE_SRC_PATH =
-  ROOT_PATH + "/enterprise/frontend/src/metabase-enterprise";
-const EMBEDDING_SRC_PATH = ROOT_PATH + "/enterprise/frontend/src/embedding";
-const SDK_PACKAGE_SRC_PATH =
-  ROOT_PATH + "/enterprise/frontend/src/embedding-sdk-package";
+// The commercially-licensed enterprise/ directory is removed from this fork;
+// all enterprise aliases resolve to OSS noop/stub modules.
+const EMBEDDING_SRC_PATH = SRC_PATH + "/embedding-stubs";
 const SDK_BUNDLE_SRC_PATH = ROOT_PATH + "/frontend/src/embedding-sdk-bundle";
 const SDK_SHARED_SRC_PATH = ROOT_PATH + "/frontend/src/embedding-sdk-shared";
 const TYPES_SRC_PATH = ROOT_PATH + "/frontend/src/metabase-types";
@@ -28,10 +26,8 @@ const E2E_PATH = ROOT_PATH + "/e2e";
 
 const isDevMode = IS_DEV_MODE;
 
-const resolveEnterprisePathOrNoop = (/** @type {string} */ subpath) =>
-  process.env.MB_EDITION === "ee"
-    ? ENTERPRISE_SRC_PATH + subpath
-    : SRC_PATH + "/utils/noop";
+const resolveEnterprisePathOrNoop = (/** @type {string} */ _subpath) =>
+  SRC_PATH + "/utils/noop";
 
 /**
  * Shared resolve aliases used by both rspack.main.config.js and
@@ -45,7 +41,7 @@ const RESOLVE_ALIASES = {
   docs: DOCS_PATH,
   metabase: SRC_PATH,
   "metabase-lib": LIB_SRC_PATH,
-  "metabase-enterprise": ENTERPRISE_SRC_PATH,
+  "metabase-enterprise": SRC_PATH + "/plugins/noop",
   "metabase-types": TYPES_SRC_PATH,
   "metabase-dev": `${SRC_PATH}/dev${isDevMode ? "" : "-noop"}.ts`,
   cljs: isDevMode ? CLJS_SRC_PATH_DEV : CLJS_SRC_PATH,
@@ -56,14 +52,11 @@ const RESOLVE_ALIASES = {
   // icepick 2.x is es6 by default, to maintain backwards compatibility
   // with ie11 point to the minified version
   icepick: ROOT_PATH + "/node_modules/icepick/icepick.min",
-  // conditionally load either the EE plugins file or a empty file in the CE code tree
-  "ee-plugins":
-    process.env.MB_EDITION === "ee"
-      ? ENTERPRISE_SRC_PATH + "/plugins"
-      : SRC_PATH + "/plugins/noop",
+  // enterprise/ is removed from this fork; EE plugin entry points are always noops
+  "ee-plugins": SRC_PATH + "/plugins/noop",
   "ee-overrides": resolveEnterprisePathOrNoop("/overrides"),
   embedding: EMBEDDING_SRC_PATH,
-  "embedding-sdk-package": SDK_PACKAGE_SRC_PATH,
+  "embedding-sdk-package": SRC_PATH + "/utils/noop",
   "embedding-sdk-bundle": SDK_BUNDLE_SRC_PATH,
   "embedding-sdk-shared": SDK_SHARED_SRC_PATH,
   "sdk-iframe-embedding-ee-plugins": resolveEnterprisePathOrNoop(
@@ -72,10 +65,7 @@ const RESOLVE_ALIASES = {
   "sdk-iframe-embedding-script-ee-plugins": resolveEnterprisePathOrNoop(
     "/sdk-iframe-embedding-script-plugins",
   ),
-  "sdk-ee-plugins":
-    process.env.MB_EDITION === "ee"
-      ? ENTERPRISE_SRC_PATH + "/sdk-plugins"
-      : SRC_PATH + "/plugins/noop",
+  "sdk-ee-plugins": SRC_PATH + "/plugins/noop",
   "sdk-specific-imports": SRC_PATH + "/utils/noop",
 };
 

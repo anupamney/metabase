@@ -6,10 +6,6 @@ import { createMockTransform } from "metabase-types/api/mocks";
 
 import { TransformPaneHeaderActions } from "./TransformPaneHeaderActions";
 
-jest.mock("metabase-enterprise/settings", () => ({
-  hasPremiumFeature: jest.fn(),
-}));
-
 const mockQuerySource: DraftTransformSource = {
   type: "query",
   query: {

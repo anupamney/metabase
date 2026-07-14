@@ -7,9 +7,7 @@
     "paths": {
       "*": [
         "./frontend/src/*",
-        "./frontend/test/*",
-        "./enterprise/frontend/src/*",
-        "./enterprise/frontend/test/*"
+        "./frontend/test/*"
       ],
       "build-configs/*": ["./frontend/build/*"],
       "cljs/*": ["./target/cljs_dev/*"],
@@ -19,7 +17,8 @@
       "sdk-specific-imports": ["./frontend/src/metabase/utils/noop"],
       "sdk-iframe-embedding-ee-plugins": ["./frontend/src/metabase/plugins/noop"],
       "sdk-iframe-embedding-script-ee-plugins": ["./frontend/src/metabase/plugins/noop"],
-      "custom-viz": ["./enterprise/frontend/src/custom-viz/src/index.ts"]
+      "custom-viz": ["./frontend/src/types/custom-viz-stub.ts"],
+      "embedding/*": ["./frontend/src/metabase/embedding-stubs/*"]
     },
     "plugins": [
       {
@@ -33,14 +32,11 @@
   "include": [
     "frontend/src/**/*",
     "frontend/build/**/*",
-    "enterprise/frontend/src/**/*",
     "frontend/test/**/*",
-    "enterprise/frontend/test/**/*",
     ".github/scripts/**/*"
   ],
   "exclude": [
     "node_modules",
-    "enterprise/frontend/src/custom-viz",
     // Vendored custom-viz plugin bundles (pre-built UMD) — opaque to
     // type-checking; the surrounding story/helper handles the typing.
     "frontend/test/__support__/custom-viz-fixtures/**/*.js",

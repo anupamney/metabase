@@ -1,14 +1,29 @@
 import fetchMock from "fetch-mock";
 
 import type {
-  MaskedScimApiKey,
-  UnmaskedScimApiKey,
-} from "metabase-enterprise/user_provisioning/types";
-import type {
   EnterpriseSettingKey,
   EnterpriseSettingValue,
   SettingDefinition,
 } from "metabase-types/api";
+
+// Inlined from the removed enterprise/ directory's user_provisioning types.
+interface MaskedScimApiKey {
+  id: number;
+  scope: "scim";
+  key: string;
+  key_prefix: string;
+  masked_key: string;
+  name: string;
+  user_id: null;
+  created_at: string;
+  creator_id: number;
+  updated_at: string;
+  updated_by_id: number;
+}
+
+interface UnmaskedScimApiKey extends MaskedScimApiKey {
+  unmasked_key: string;
+}
 
 export function setupSettingsEndpoints(settings: SettingDefinition[]) {
   fetchMock.get("path:/api/setting", settings, { name: "settings-list" });

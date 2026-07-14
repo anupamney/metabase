@@ -58,6 +58,11 @@ const baseConfig = {
      * This isn't a problem in the core app because we seem to not import to entry file directly
      * for any component under tests.
      */
+    // enterprise/ is removed from this fork; these resolve to OSS stubs
+    "^embedding/(.*)$": "<rootDir>/frontend/src/metabase/embedding-stubs/$1",
+    "^custom-viz$": "<rootDir>/frontend/src/types/custom-viz-stub.ts",
+    "^metabase-enterprise/(.*)$":
+      "<rootDir>/frontend/src/metabase/plugins/noop.ts",
     "sdk-ee-plugins": "<rootDir>/frontend/src/metabase/plugins/noop.ts",
     /**
      * SDK iframe embedding imports the embedding sdk and its components.
@@ -99,14 +104,12 @@ const baseConfig = {
   modulePaths: [
     "<rootDir>/frontend/test",
     "<rootDir>/frontend/src",
-    "<rootDir>/enterprise/frontend/src",
   ],
   modulePathIgnorePatterns: [
     "<rootDir>/target/cljs_release/.*",
     "<rootDir>/target/classes/.*",
     "<rootDir>/resources/frontend_client",
     "<rootDir>/.*/__mocks__",
-    "<rootDir>/enterprise/frontend/src/custom-viz",
   ],
   setupFiles: [
     "<rootDir>/frontend/test/jest-setup.js",
@@ -120,7 +123,6 @@ const baseConfig = {
   coverageDirectory: "./coverage",
   collectCoverageFrom: [
     "frontend/src/**/*.{js,jsx,ts,tsx}",
-    "enterprise/frontend/src/**/*.{js,jsx,ts,tsx}",
     "!<rootDir>/**/*.styled.{js,jsx,ts,tsx}",
     "!<rootDir>/**/*.story.{js,jsx,ts,tsx}",
     "!<rootDir>/**/*.info.{js,jsx,ts,tsx}",
@@ -157,8 +159,6 @@ const config = {
 
       testMatch: [
         "<rootDir>/frontend/src/embedding-sdk-{bundle,shared}/**/*.unit.spec.{js,jsx,ts,tsx}",
-        "<rootDir>/enterprise/frontend/src/embedding-sdk-package/**/*.unit.spec.{js,jsx,ts,tsx}",
-        "<rootDir>/enterprise/frontend/src/embedding-sdk-ee/**/*.unit.spec.{js,jsx,ts,tsx}",
       ],
 
       setupFiles: [
@@ -179,9 +179,6 @@ const config = {
         ...(baseConfig.testPathIgnorePatterns || []),
         "<rootDir>/frontend/src/embedding-sdk-bundle",
         "<rootDir>/frontend/src/embedding-sdk-shared",
-        "<rootDir>/enterprise/frontend/src/embedding-sdk-package",
-        "<rootDir>/enterprise/frontend/src/embedding-sdk-ee",
-        "<rootDir>/enterprise/frontend/src/custom-viz",
         "<rootDir>/frontend/lint/tests",
       ],
     },
