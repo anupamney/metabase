@@ -2,6 +2,24 @@ import type { DataAppTestEnv } from "e2e/support/assets/data-apps/renders-intera
 import * as Urls from "metabase/urls/data-apps";
 
 import { getIframeBody } from "./e2e-embedding-helpers";
+import { LOCAL_GIT_PATH } from "./e2e-remote-sync-helpers";
+
+export const SYNCED_DATA_APPS_FIXTURE_PATH =
+  Cypress.config("projectRoot") +
+  "/e2e/support/assets/example_synced_data_apps";
+
+/**
+ * Copy the example data-app repo into the working directory of the local git repo
+ * `setupGitSync` created, so a `commitToRepo` + a real pull materialize its apps.
+ * It holds three apps under `data_apps/`, two of which declare the same slug (see
+ * `data_apps/duplicated-slug-app-copy/data_app.yml`) — which makes the repo invalid
+ * and is what the sync spec drives.
+ */
+export const copySyncedDataAppsFixture = () =>
+  cy.task("copyDirectory", {
+    source: SYNCED_DATA_APPS_FIXTURE_PATH,
+    destination: LOCAL_GIT_PATH,
+  });
 
 type MockDataAppOptions<TestEnv> = {
   /** Display name (iframe title + admin list); defaults to the fixture dir name. */
