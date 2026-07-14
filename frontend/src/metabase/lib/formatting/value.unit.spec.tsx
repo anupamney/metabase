@@ -1,9 +1,18 @@
 import { mockSettings } from "__support__/settings";
 import { render, screen } from "__support__/ui";
+import { ExternalLink } from "metabase/common/components/ExternalLink";
+import { Link } from "metabase/common/components/Link";
+import { registerJsxFormatting } from "metabase/lib/formatting/ui";
+import { TYPE } from "metabase-lib/v1/types/constants";
+import type { ColumnSettings } from "metabase-types/api";
 import { createMockColumn } from "metabase-types/api/mocks";
 
 import type { OptionsType } from "./types";
 import { formatValue } from "./value";
+
+registerJsxFormatting();
+
+const SITE_URL = "http://localhost:3000";
 
 describe("formatValue", () => {
   const setup = (value: any, overrides: Partial<OptionsType> = {}) => {

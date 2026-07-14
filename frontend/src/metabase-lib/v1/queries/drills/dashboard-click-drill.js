@@ -9,7 +9,6 @@ import * as Lib from "metabase-lib";
 import Question from "metabase-lib/v1/Question";
 import {
   formatSourceForTarget,
-  getDataFromClicked,
   getTargetForQueryParams,
 } from "metabase-lib/v1/parameters/utils/click-behavior";
 import { isDate } from "metabase-lib/v1/types/utils/isa";

@@ -83,7 +83,7 @@ export function columnSettings({
     getObjectKey: getColumnKey,
     getObjectSettings: getObjectColumnSettings,
     getSettingDefinitionsForObject: getSettingDefinitionsForColumn,
-    component: ChartNestedSettingColumns,
+    widget: "nestedColumns",
     getInheritedSettingsForObject: getInheritedSettingsForColumn,
     useRawSeries: true,
     hidden,
@@ -538,7 +538,7 @@ export function tableColumnSettings({
         return t`Columns`;
       },
       // title: t`Columns`,
-      widget: ChartSettingTableColumns,
+      widget: "tableColumns",
       getHidden: (_series, vizSettings) => vizSettings["table.pivot"],
       getValue: ([{ data }], vizSettings) => {
         const { cols } = data;

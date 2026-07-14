@@ -4,7 +4,7 @@ import { push } from "react-router-redux";
 
 import { deleteSession, initiateSLO } from "metabase/lib/auth";
 import { isSmallScreen, reload } from "metabase/lib/dom";
-import { loadLocalization } from "metabase/lib/i18n";
+import { loadLocalization } from "metabase/api/localization";
 import { createAsyncThunk } from "metabase/lib/redux";
 import MetabaseSettings from "metabase/lib/settings";
 import * as Urls from "metabase/lib/urls";

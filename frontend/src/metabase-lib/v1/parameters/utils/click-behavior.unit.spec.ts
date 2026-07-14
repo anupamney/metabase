@@ -1,6 +1,7 @@
 import { createMockMetadata } from "__support__/metadata";
-import * as dateFormatUtils from "metabase/lib/formatting/date";
 import { checkNotNull } from "metabase/lib/types";
+import { getDataFromClicked } from "metabase/lib/formatting/click-data";
+import * as dateFormatUtils from "metabase/lib/formatting/date";
 import Question from "metabase-lib/v1/Question";
 import type Field from "metabase-lib/v1/metadata/Field";
 import type { FieldId, TemplateTagType } from "metabase-types/api";
@@ -32,7 +33,6 @@ import {
 
 import {
   formatSourceForTarget,
-  getDataFromClicked,
   getTargetsForDashboard,
   getTargetsForQuestion,
 } from "./click-behavior";
