@@ -7,7 +7,7 @@
 // have not been given a v7 shape yet (route-tree components, withRouter, history
 // helpers) plus the raw Link/LinkProps under `Router`-prefixed names for the few
 // call sites that need the unstyled primitive.
-import type { ComponentClass, ReactElement } from "react";
+import type { ComponentClass, ReactElement, ReactNode } from "react";
 import type {
   IndexRouteProps as BaseIndexRouteProps,
   RouteProps as BaseRouteProps,
@@ -46,7 +46,7 @@ export type RouteProps = Omit<BaseRouteProps, LifecycleHook> & {
    * v7-style wrapper element. Rendered in place of `component`, with the matched
    * child route exposed through `<Outlet/>`.
    */
-  element?: ReactElement;
+  element?: ReactNode;
 };
 export type IndexRouteProps = Omit<BaseIndexRouteProps, LifecycleHook>;
 
