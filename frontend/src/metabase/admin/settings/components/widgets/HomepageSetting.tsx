@@ -95,7 +95,7 @@ export function HomepageSetting() {
         aria-label={t`Homepage`}
       >
         <Stack gap="md">
-          <Radio value="default" label={t`Default Metabase home`} />
+          <Radio value="default" label={t`Default Insights Flow home`} />
 
           <Stack gap="xs">
             <Radio value="dashboard" label={t`Dashboard`} />
