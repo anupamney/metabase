@@ -107,7 +107,7 @@ export const getRoutes = (store: AppStore) => {
         {/* AUTH */}
         <Route path="/auth">
           <IndexRedirect to="/auth/login" />
-          <Route component={IsNotAuthenticated}>
+          <Route element={<IsNotAuthenticated />}>
             <Route path="login" component={Login} />
             <Route path="login/:provider" component={Login} />
           </Route>
@@ -121,13 +121,13 @@ export const getRoutes = (store: AppStore) => {
         </Route>
 
         {/* MAIN */}
-        <Route component={IsAuthenticated}>
+        <Route element={<IsAuthenticated />}>
           {getMetabotRoutes()}
 
           {/* The global all hands routes, things in here are for all the folks */}
           <Route path="/" component={LandingPageRedirect} />
 
-          <Route path="getting-started" component={CanAccessOnboarding}>
+          <Route path="getting-started" element={<CanAccessOnboarding />}>
             <IndexRoute component={Onboarding} />
           </Route>
 
@@ -157,7 +157,7 @@ export const getRoutes = (store: AppStore) => {
             })}
           />
 
-          <Route path="collection/users" component={IsAdmin}>
+          <Route path="collection/users" element={<IsAdmin />}>
             <IndexRoute component={UserCollectionList} />
           </Route>
 
@@ -168,7 +168,7 @@ export const getRoutes = (store: AppStore) => {
             <IndexRoute component={PLUGIN_TENANTS.TenantCollectionList} />
           </Route>
 
-          <Route path="collection/tenant-users" component={IsAdmin}>
+          <Route path="collection/tenant-users" element={<IsAdmin />}>
             <IndexRoute component={PLUGIN_TENANTS.TenantUsersList} />
             <Route
               path=":tenantId"

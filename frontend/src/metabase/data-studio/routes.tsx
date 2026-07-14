@@ -40,10 +40,10 @@ export function getDataStudioRoutes(
   IsAdmin: RouteComponent,
 ) {
   return (
-    <Route component={CanAccessDataStudio}>
+    <Route element={<CanAccessDataStudio />}>
       <Route path="data-studio" component={DataStudioLayout}>
         <IndexRoute component={DataStudioIndexRedirect} />
-        <Route path="data" component={CanAccessDataModel}>
+        <Route path="data" element={<CanAccessDataModel />}>
           <Route component={DataSectionLayout}>
             {getDataStudioMetadataRoutes(IsAdmin)}
           </Route>

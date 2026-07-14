@@ -15,7 +15,7 @@ export const getAccountRoutes = (
   IsAuthenticated: RouteComponent,
 ) => {
   return (
-    <Route path="/account" component={IsAuthenticated}>
+    <Route path="/account" element={<IsAuthenticated />}>
       <Route component={AccountApp}>
         <IndexRedirect to="profile" />
         <Route path="profile" component={UserProfileApp} />
