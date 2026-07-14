@@ -7,6 +7,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *
  * Report user edits through the returned `setInputValueFromUser` (not a raw
  * setState) so the hook knows hydration is no longer allowed.
+ *
+ * Assumes the value is authoritative once `isLoading` is false — true here
+ * because AppComponent's app-wide settings query has resolved before any admin
+ * form mounts, so a `!isLoading` value is the fetched value, not stale bootstrap.
  */
 export function useHydratedInput<T>({
   value,

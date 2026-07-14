@@ -41,8 +41,7 @@ export const BedrockProviderFields = ({
   isEnvSetting: boolean;
 }) => {
   const [updateMetabotSettings] = useUpdateMetabotSettingsMutation();
-  const { details, isLoading: areDetailsLoading } =
-    useAdminSettings(BEDROCK_SETTING_KEYS);
+  const { details } = useAdminSettings(BEDROCK_SETTING_KEYS);
 
   const initialValues = useMemo<BedrockCredentialValues>(
     () => ({
@@ -84,13 +83,6 @@ export const BedrockProviderFields = ({
 
     resetForm({ values });
   };
-
-  // Wait for the saved credentials before rendering: `enableReinitialize`
-  // resets the form when they arrive, which would wipe anything the user has
-  // already typed into the prematurely-rendered fields.
-  if (areDetailsLoading) {
-    return null;
-  }
 
   return (
     <FormProvider

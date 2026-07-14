@@ -5,7 +5,7 @@ import _ from "underscore";
 
 import { useToast } from "metabase/common/hooks";
 import { useSelector } from "metabase/redux";
-import { getSetting } from "metabase/selectors/settings";
+import { getSetting, getSettings } from "metabase/selectors/settings";
 import type {
   EnterpriseSettingKey,
   EnterpriseSettingValue,
@@ -177,16 +177,11 @@ export const useAdminSettings = <
   );
 
   type Values = { [K in SettingNames[number]]: EnterpriseSettings[K] };
-  // Read the values through `getSetting` so they resolve from the cache with a
-  // synchronous fallback to the bootstrap (available before the fetch
-  // resolves), the same as `useAdminSetting`. Reading `useGetSettingsQuery`
-  // data directly would return an empty bag while the fetch is in flight —
-  // and `Object.values({}).every(...)` style checks on it are vacuously true.
+  // Pick from `getSettings` (cache with bootstrap fallback) rather than raw
+  // `useGetSettingsQuery` data, which is an empty bag mid-fetch — making
+  // `Object.values({}).every(...)` checks vacuously true.
   const values = useSelector(
-    (state) =>
-      Object.fromEntries(
-        settingNames.map((name) => [name, getSetting(state, name)]),
-      ) as Values,
+    (state) => _.pick(getSettings(state), ...settingNames) as Values,
     shallowEqual,
   );
 

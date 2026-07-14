@@ -41,12 +41,10 @@ export function setupUpdateSettingEndpoint(
 }
 
 /**
- * Stateful settings mocks: PUT /api/setting/:key and PUT /api/setting mutate a
- * shared store, and GET /api/session/properties returns it. Use this instead of
- * the static `setupPropertiesEndpoints` + `setupUpdateSettingEndpoint` when a
- * test saves a setting and then reads the refreshed value — settings mutations
- * invalidate (and refetch) session-properties, so a static response would hand
- * back the pre-save snapshot. Returns the mutable store for assertions.
+ * Stateful settings mocks for save-then-read tests: PUT /api/setting(/:key)
+ * mutate a shared store that GET /api/session/properties returns, so the
+ * post-save refetch reflects the write instead of the pre-save snapshot.
+ * Returns the mutable store for assertions.
  */
 export function setupStatefulSettingsEndpoints(
   initialSettings: Partial<EnterpriseSettings> | Record<string, unknown>,

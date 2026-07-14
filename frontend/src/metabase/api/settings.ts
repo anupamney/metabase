@@ -12,6 +12,17 @@ import { Api } from "./api";
 import { sessionApi } from "./session";
 import { invalidateTags, listTag, tag } from "./tags";
 
+type UpdateSettingArg = {
+  key: EnterpriseSettingKey;
+  value: EnterpriseSettingValue<EnterpriseSettingKey>;
+};
+
+const putSettingQuery = ({ key, value }: UpdateSettingArg) => ({
+  method: "PUT",
+  url: `/api/setting/${encodeURIComponent(key)}`,
+  body: { value },
+});
+
 export const settingsApi = Api.injectEndpoints({
   endpoints: (builder) => ({
     // admin-only endpoint that returns all settings with lots of extra metadata
@@ -41,18 +52,8 @@ export const settingsApi = Api.injectEndpoints({
       }),
       // don't provide a tag, this should never be refetched
     }),
-    updateSetting: builder.mutation<
-      void,
-      {
-        key: EnterpriseSettingKey;
-        value: EnterpriseSettingValue<EnterpriseSettingKey>;
-      }
-    >({
-      query: ({ key, value }) => ({
-        method: "PUT",
-        url: `/api/setting/${encodeURIComponent(key)}`,
-        body: { value },
-      }),
+    updateSetting: builder.mutation<void, UpdateSettingArg>({
+      query: putSettingQuery,
       invalidatesTags: (_, error, { key }) => {
         return invalidateTags(error, [
           tag("session-properties"),
@@ -82,18 +83,8 @@ export const settingsApi = Api.injectEndpoints({
     // Use this for high-frequency UI-driven settings (toggles, dismissed
     // prompts); use `updateSetting` (pessimistic, invalidates) for admin
     // settings.
-    updateUserSetting: builder.mutation<
-      void,
-      {
-        key: EnterpriseSettingKey;
-        value: EnterpriseSettingValue<EnterpriseSettingKey>;
-      }
-    >({
-      query: ({ key, value }) => ({
-        method: "PUT",
-        url: `/api/setting/${encodeURIComponent(key)}`,
-        body: { value },
-      }),
+    updateUserSetting: builder.mutation<void, UpdateSettingArg>({
+      query: putSettingQuery,
       onQueryStarted: async ({ key, value }, { dispatch, queryFulfilled }) => {
         const patch = dispatch(
           sessionApi.util.updateQueryData(

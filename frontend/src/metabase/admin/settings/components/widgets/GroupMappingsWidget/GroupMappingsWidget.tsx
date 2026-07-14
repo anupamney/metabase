@@ -7,7 +7,6 @@ import {
   useListPermissionsGroupsQuery,
   useUpdateSettingMutation,
 } from "metabase/api";
-import { runRtkEndpoint } from "metabase/api/utils/run-rtk-endpoint";
 import { useDispatch, useSelector } from "metabase/redux";
 import { getSetting } from "metabase/selectors/settings";
 import type { GroupId, GroupInfo } from "metabase-types/api";
@@ -48,18 +47,17 @@ export function GroupMappingsWidget(props: GroupMappingsWidgetProps) {
   const handleUpdateSetting = useCallback(
     async (args: { key: string; value: Record<string, GroupId[]> }) => {
       await updateSetting(args as Parameters<typeof updateSetting>[0]).unwrap();
-      // `updateSetting` invalidates session-properties, which starts a
-      // refetch, but the mutation resolves as soon as the PUT lands. The
-      // mappings table reads from that cache, so wait for the refetch too —
-      // otherwise the just-saved mapping vanishes from the table until the
-      // background refetch completes. The non-forced initiate joins the
-      // already-in-flight invalidation refetch rather than issuing a second
-      // request.
-      await runRtkEndpoint(
-        undefined,
-        dispatch,
-        sessionApi.endpoints.getSessionProperties,
-        { forceRefetch: false },
+      // The table reads mappings from the session-properties cache. Patch the
+      // just-saved value in optimistically so it doesn't blink out between the
+      // PUT and the background invalidation refetch (which then confirms it).
+      dispatch(
+        sessionApi.util.updateQueryData(
+          "getSessionProperties",
+          undefined,
+          (draft) => {
+            (draft as Record<string, unknown>)[args.key] = args.value;
+          },
+        ),
       );
     },
     [updateSetting, dispatch],

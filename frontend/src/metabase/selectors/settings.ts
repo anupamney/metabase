@@ -12,10 +12,8 @@ import type {
 } from "metabase-types/api";
 
 // Settings (a.k.a. session properties) live in the `getSessionProperties` RTK
-// Query cache. `getSettings` reads them from there, falling back to
-// `window.MetabaseBootstrap` (the server-injected bootstrap) so settings are
-// never empty before the first fetch resolves. In tests the render harness
-// seeds the bootstrap; pure-selector tests (no store/render) set it directly.
+// Query cache; `getSettings` reads them from there, falling back to
+// `window.MetabaseBootstrap` so reads aren't empty before the first fetch.
 //
 // The explicit annotation collapses the RTK-generated selector generics; left
 // inferred, they leak into every consumer and can push deeply-nested reducer

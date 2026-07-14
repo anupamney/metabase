@@ -42,8 +42,7 @@ export const AzureProviderFields = ({
   isEnvSetting: boolean;
 }) => {
   const [updateMetabotSettings] = useUpdateMetabotSettingsMutation();
-  const { details, isLoading: areDetailsLoading } =
-    useAdminSettings(AZURE_SETTING_KEYS);
+  const { details } = useAdminSettings(AZURE_SETTING_KEYS);
 
   const initialValues = useMemo<AzureCredentialValues>(() => {
     const { family, deployment } = parseAzureModel(
@@ -76,13 +75,6 @@ export const AzureProviderFields = ({
 
     resetForm({ values });
   };
-
-  // Wait for the saved credentials before rendering: `enableReinitialize`
-  // resets the form when they arrive, which would wipe anything the user has
-  // already typed into the prematurely-rendered fields.
-  if (areDetailsLoading) {
-    return null;
-  }
 
   return (
     <FormProvider
