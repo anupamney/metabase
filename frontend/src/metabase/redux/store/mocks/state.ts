@@ -59,22 +59,21 @@ export function createMockState(opts: any) {
     ...opts,
   };
 
-  // There's no `settings` reducer — settings are read from the
-  // `getSessionProperties` RTK Query cache with `window.MetabaseBootstrap` as
-  // the fallback. Mirror the mock settings into the bootstrap so
-  // `getSetting`/`getSettings` resolve them on states that never pass through
-  // a render harness (pure-selector tests). jest-setup-env clears the
-  // bootstrap between tests.
+  // Intentional side effect — do NOT "clean this up" into explicit per-test
+  // seeding. There's no `settings` reducer; settings resolve from the
+  // `getSessionProperties` cache, falling back to `window.MetabaseBootstrap`.
+  // Auto-mirroring the mock settings into the bootstrap here is what lets a
+  // store-less or pure-selector test read them without a separate step — so
+  // nobody silently forgets to seed settings and reads empty. jest-setup-env
+  // clears the bootstrap between tests.
   //
-  // Jest-only: in Storybook every story module calls createMockState at module
-  // load, so writing the shared global from here would leak one story's
-  // settings into every other story (Loki caught exactly that). Story stores
-  // get their settings through the seeded query cache instead (see
-  // `getManifestStore` in `__support__/entities-store`).
+  // Restricted to jest: Storybook calls createMockState at every story's module
+  // load, so writing this shared global there would leak one story's settings
+  // into the next (Loki caught exactly that). Stories seed the query cache
+  // per-store instead (see `getManifestStore` in `__support__/entities-store`).
   //
-  // Default settings only fill an *empty* bootstrap: a test that seeded the
-  // bootstrap itself and then builds a settings-less mock state must not have
-  // its seed clobbered by our defaults.
+  // Only fills an *empty* bootstrap, so a test that set its own bootstrap and
+  // then builds a settings-less mock state isn't clobbered by our defaults.
   const hasExplicitSettings = opts?.settings != null;
   if (
     process.env.NODE_ENV === "test" &&
