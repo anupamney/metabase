@@ -25,7 +25,7 @@
   (deferred-tru "The name used for this instance of {0}."
                 (setting/application-name-for-setting-descriptions application-name))
   :encryption :no
-  :default    "Metabase"
+  :default    "Insights Flow"
   :audit      :getter
   :visibility :settings-manager
   :export?    true)

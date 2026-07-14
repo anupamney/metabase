@@ -37,7 +37,7 @@
   via trs if a name isn't configured."
   []
   (or (appearance/application-name)
-      (trs "Metabase")))
+      (trs "Insights Flow")))
 
 (defn- logo-bundle
   "Get the logo bundle for the current application logo."
@@ -321,7 +321,7 @@
   (let [context (merge (common-context)
                        {:emailType    "notification"
                         :logoHeader   true
-                        :heading      (trs "We hope you''ve been enjoying Metabase.")
+                        :heading      (trs "We hope you''ve been enjoying {0}." (app-name-trs))
                         :callToAction (trs "Would you mind taking a quick 5 minute survey to tell us how it’s going?")
                         :link         "https://metabase.com/feedback/active"})
         email-msg {:subject      (trs "[{0}] Tell us how things are going." (app-name-trs))
@@ -348,7 +348,7 @@
                                       encoded-info (str "?context=" encoded-info))}
                        (when-not (premium-features/is-hosted?)
                          {:self-hosted (system/site-url)}))
-        message {:subject      "Metabase would love your take on something"
+        message {:subject      (str (app-name-trs) " would love your take on something")
                  :recipients   [email]
                  :message-type :html
                  :message      (channel.template/render "creator_sentiment_email" context)}]

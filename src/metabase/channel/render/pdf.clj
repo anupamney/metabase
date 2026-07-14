@@ -1281,10 +1281,10 @@
     (* vw scale)))
 
 (defn- include-branding?
-  "Whether the 'Made with Metabase' badge should be drawn. Branding in exports is included only for
-  instances that lack the `:whitelabel` feature -- i.e. OSS instances. Pro/EE instances get no badge."
+  "Whether the 'Made with' badge should be drawn. Disabled in this distribution: the bundled
+  wordmark vector is Metabase's trademark, which Insights Flow must not present as its own."
   []
-  (not (premium-features/enable-whitelabeling?)))
+  false)
 
 (defn- draw-brand-badge!
   "Draw the 'Made with [logo] Metabase' badge, right-aligned to `right`, with the logo's top at

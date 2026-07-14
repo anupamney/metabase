@@ -34,7 +34,7 @@ export const WelcomePage = (): JSX.Element | null => {
     <PageRoot data-testid="welcome-page">
       <PageMain>
         <DefaultLogoIcon height={118} />
-        <PageTitle>{t`Welcome to Metabase`}</PageTitle>
+        <PageTitle>{t`Welcome to Insights Flow`}</PageTitle>
         <PageBody>
           {t`Looks like everything is working.`}{" "}
           {t`Now let’s get to know you, connect to your data, and start finding you some answers!`}

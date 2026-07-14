@@ -245,7 +245,7 @@
                                    (include-branding?)
                                    (conj
                                     {:type "mrkdwn"
-                                     :text  "Made with Metabase :blue_heart:"}))}
+                                     :text  (str "Made with " (appearance/application-name) " :blue_heart:")}))}
         filter-fields   (parameter-fields top-level-params)
         filter-section  (when (seq filter-fields)
                           {:type   "section"

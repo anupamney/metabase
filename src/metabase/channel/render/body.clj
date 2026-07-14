@@ -1013,7 +1013,7 @@
                    :font-weight 700})}
     (trs "We were unable to display this Pulse.")
     [:br]
-    (trs "Please view this card in Metabase.")]})
+    (trs "Please view this card in {0}." (appearance/application-name))]})
 
 (mu/defmethod render :card-error :- ::RenderedPartCard
   [_chart-type _render-type _timezone-id _card _dashcard _data]

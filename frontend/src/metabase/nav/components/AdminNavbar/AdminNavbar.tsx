@@ -86,7 +86,7 @@ export const AdminNavbar = ({
           fw={700}
           ml="1rem"
           // eslint-disable-next-line metabase/no-literal-metabase-strings -- Metabase settings
-        >{t`Metabase Admin`}</Box>
+        >{t`Insights Flow Admin`}</Box>
       </Flex>
 
       <Flex visibleFrom="md" align="center" miw={0} flex="1 1 auto" ps="2rem">

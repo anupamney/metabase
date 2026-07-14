@@ -55,7 +55,7 @@ export function WhatsNewNotification() {
     <NavbarPromoCard
       icon={<Sparkles />}
       // eslint-disable-next-line metabase/no-literal-metabase-strings -- This only shows for admins
-      title={t`Metabase has been updated`}
+      title={t`Insights Flow has been updated`}
       linkText={t`See what's new`}
       linkHref={url}
       external

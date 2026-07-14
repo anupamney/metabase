@@ -222,7 +222,7 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
                 {showOnboardingLink && (
                   <Menu.Item component={ForwardRefLink} to="/getting-started">
                     {/* eslint-disable-next-line metabase/no-literal-metabase-strings -- This string only shows for non-whitelabeled instances */}
-                    {t`How to use Metabase`}
+                    {t`How to use Insights Flow`}
                   </Menu.Item>
                 )}
 

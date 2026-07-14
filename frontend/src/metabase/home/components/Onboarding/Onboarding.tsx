@@ -288,7 +288,7 @@ export const Onboarding = () => {
                     />
                     {!isPaidPlan ? (
                       // eslint-disable-next-line metabase/no-literal-metabase-strings -- OSS doesn't have whitelabeling option
-                      <Text>{t`Don't be shy with invites. Metabase makes self-service analytics easy.`}</Text>
+                      <Text>{t`Don't be shy with invites. Insights Flow makes self-service analytics easy.`}</Text>
                     ) : (
                       // eslint-disable-next-line metabase/no-literal-metabase-strings -- This string only shows for admins
                       <Text>{t`Don't be shy with invites. Metabase Starter plan includes 5 users, and Pro includes 10 users without the need to pay additionally.`}</Text>

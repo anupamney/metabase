@@ -60,7 +60,7 @@ export const LanguageStep = ({ stepLabel }: NumberedStepProps): JSX.Element => {
     <ActiveStep title={t`What's your preferred language?`} label={stepLabel}>
       <StepDescription>
         <Stack gap="md">
-          {t`This language will be used throughout Metabase and will be the default for new users.`}
+          {t`This language will be used throughout Insights Flow and will be the default for new users.`}
           <CommunityLocalizationNotice isAdminView />
         </Stack>
       </StepDescription>
