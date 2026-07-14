@@ -12,7 +12,7 @@ import { SessionApi, UtilApi } from "metabase/services";
 import * as Urls from "metabase/urls";
 import { isSmallScreen, reload } from "metabase/utils/dom";
 import { isResourceNotFoundError } from "metabase/utils/errors";
-import { loadLocalization } from "metabase/utils/i18n";
+import { loadLocalization } from "metabase/api/localization";
 import { passwordComplexityDescription } from "metabase/utils/password";
 
 import type { LoginData } from "./types";

@@ -12,7 +12,7 @@ import type { InviteInfo, Locale, State, UserInfo } from "metabase/redux/store";
 import { createAsyncThunk } from "metabase/redux/utils";
 import { getSetting } from "metabase/selectors/settings";
 import { SetupApi } from "metabase/services";
-import { loadLocalization } from "metabase/utils/i18n";
+import { loadLocalization } from "metabase/api/localization";
 import MetabaseSettings from "metabase/utils/settings";
 import type { DatabaseData, Settings, UsageReason } from "metabase-types/api";
 
