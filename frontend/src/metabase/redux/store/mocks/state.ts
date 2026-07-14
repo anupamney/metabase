@@ -59,21 +59,11 @@ export function createMockState(opts: any) {
     ...opts,
   };
 
-  // Intentional side effect — do NOT "clean this up" into explicit per-test
-  // seeding. There's no `settings` reducer; settings resolve from the
-  // `getSessionProperties` cache, falling back to `window.MetabaseBootstrap`.
-  // Auto-mirroring the mock settings into the bootstrap here is what lets a
-  // store-less or pure-selector test read them without a separate step — so
-  // nobody silently forgets to seed settings and reads empty. jest-setup-env
-  // clears the bootstrap between tests.
-  //
-  // Restricted to jest: Storybook calls createMockState at every story's module
-  // load, so writing this shared global there would leak one story's settings
-  // into the next (Loki caught exactly that). Stories seed the query cache
-  // per-store instead (see `getManifestStore` in `__support__/entities-store`).
-  //
-  // Only fills an *empty* bootstrap, so a test that set its own bootstrap and
-  // then builds a settings-less mock state isn't clobbered by our defaults.
+  // Settings resolve from the `getSessionProperties` cache, falling back to
+  // `window.MetabaseBootstrap`. Mirror the mock settings into the bootstrap so
+  // store-less/selector tests can read them. Jest-only (the global would leak
+  // across Storybook stories); only fills an empty bootstrap so an explicit
+  // seed isn't clobbered.
   const hasExplicitSettings = opts?.settings != null;
   if (
     process.env.NODE_ENV === "test" &&
