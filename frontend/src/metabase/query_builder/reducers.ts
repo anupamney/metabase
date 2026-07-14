@@ -688,7 +688,11 @@ export const card = createReducer<Card | null>(null, (builder) => {
           visualization_settings: action.payload.card.visualization_settings,
         };
       },
-    )
+    );
+
+  // The builder chain is split here so its accumulated type stays shallow;
+  // a single chain trips TS2589 (excessively deep instantiation).
+  builder
     .addMatcher(createCardPublicLink.matchFulfilled, (state, action) => {
       if (!state) {
         return state;
