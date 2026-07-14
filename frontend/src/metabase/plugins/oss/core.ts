@@ -99,8 +99,12 @@ const getDefaultSelectors = () => ({
   canWhitelabel: (_state: State) => false,
   getLoadingMessageFactory: (_state: State) => getLoadingMessage,
   getIsWhiteLabeling: (_state: State) => false,
-  // eslint-disable-next-line metabase/no-literal-metabase-strings -- This is the actual Metabase name, so we don't want to translate it.
-  getApplicationName: (_state: State) => "Metabase",
+  // Insights Flow branding: read the server-provided application name so the whole UI
+  // follows the backend `application-name` setting default.
+  getApplicationName: (state: State) =>
+    ((state.settings?.values as Record<string, unknown>)?.[
+      "application-name"
+    ] as string) || "Insights Flow",
   getShowMetabaseLinks: (_state: State) => true,
   getLoginPageIllustration: (_state: State): IllustrationValue => {
     return defaultLoginPageIllustration;

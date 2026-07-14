@@ -10,15 +10,16 @@
 
 (set! *warn-on-reflection* true)
 
+;; Insights Flow branding: default the application name to the product name and drop the
+;; upstream premium-feature gate so operators can change it in this distribution.
 (defsetting application-name
-  (deferred-tru "Replace the word “Metabase” wherever it appears.")
+  (deferred-tru "Replace the product name wherever it appears.")
   :encryption :no
   :visibility :public
   :export?    true
   :type       :string
   :audit      :getter
-  :feature    :whitelabel
-  :default    "Metabase")
+  :default    "Insights Flow")
 
 (defsetting site-name
   (deferred-tru "The name used for this instance of {0}."
@@ -200,8 +201,8 @@ See [fonts](../configuring-metabase/fonts.md).")
   :export?    true
   :type       :string
   :audit      :getter
-  :feature    :whitelabel
-  :default    "app/assets/img/favicon.ico")
+  ;; Insights Flow branding: product favicon, setter un-gated for this distribution.
+  :default    "app/assets/img/insightsflow-favicon.svg")
 
 (defsetting show-metabot
   (deferred-tru "Enables Metabot character on the home page")
